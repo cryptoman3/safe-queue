@@ -110,7 +110,10 @@ class Worker extends IlluminateWorker
         foreach ($this->managerRegistry->getManagers() as $entityManager) {
             $connection = $entityManager->getConnection();
 
-            if ($connection->ping() === false) {
+            try {
+                // Ping
+                $connection->executeQuery('SELECT 1;');
+            } catch (Exception $e) {
                 $connection->close();
                 $connection->connect();
             }
