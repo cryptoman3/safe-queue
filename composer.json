@@ -1,5 +1,5 @@
 {
-    "name": "digbang/safe-queue",
+    "name": "cryptoman3/safe-queue",
     "description": "A Laravel Doctrine friendly daemonising queue worker for Laravel",
     "license": "MIT",
     "authors": [
