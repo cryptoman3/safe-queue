@@ -4,6 +4,6 @@ namespace Digbang\SafeQueue;
 
 use Exception;
 
-class DBConnectionIsClosedException extends Exception
+class ConnectionClosedException extends Exception
 {
 }
