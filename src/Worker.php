@@ -84,7 +84,7 @@ class Worker extends IlluminateWorker
     private function assertEntityManagerOpen()
     {
         foreach ($this->managerRegistry->getManagers() as $entityManager) {
-            if (!$entityManager->isOpen()) {
+            if ($entityManager->isOpen() === false) {
                 throw new EntityManagerClosedException;
             }
         }
@@ -104,18 +104,15 @@ class Worker extends IlluminateWorker
      * Some database systems close the connection after a period of time, in MySQL this is system variable
      * `wait_timeout`. Given the daemon is meant to run indefinitely we need to make sure we have an open
      * connection before working any job. Otherwise we would see `MySQL has gone away` type errors.
+     *
+     * @throws ConnectionClosedException
      */
     private function assertGoodDatabaseConnection()
     {
         foreach ($this->managerRegistry->getManagers() as $entityManager) {
             $connection = $entityManager->getConnection();
-
-            try {
-                // Ping
-                $connection->executeQuery('SELECT 1;');
-            } catch (Exception $e) {
-                $connection->close();
-                $connection->connect();
+            if ($connection->isConnected() === false) {
+                throw new ConnectionClosedException;
             }
         }
     }
