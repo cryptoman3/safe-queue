@@ -59,7 +59,7 @@ class Worker extends IlluminateWorker
         try {
             $this->assertEntityManagerOpen();
             $this->assertEntityManagerClear();
-            $this->assertGoodDatabaseConnection();
+            // $this->assertGoodDatabaseConnection();
         } catch (EntityManagerClosedException $e) {
             $exception = $e;
         } catch (Exception $e) {
